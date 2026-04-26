@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reactiongame</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>反応速度ゲーム</h1>
+
+<button id="start">start</button>
+<button id="push">push</button>
+
+<p id="score">待機中...</p>
+
+<script>
+let canClick = false;
+let startTime;
+
+const startBtn = document.getElementById("start");
+const pushBtn = document.getElementById("push");
+const scoreText = document.getElementById("score");
+
+startBtn.onclick = function () {
+  scoreText.textContent = "WAIT...";
+  startBtn.disabled = true;
+  pushBtn.disabled = false;
+  canClick = false;
+  let sec = Math.floor(Math.random() * 4) + 1;
+
+  setTimeout(() => {
+    canClick = true;
+    startTime = Date.now();
+    scoreText.textContent = "GO!";
+  }, sec * 1000);
+};
+
+pushBtn.onclick = function () {
+  if (!canClick) {
+    scoreText.textContent = "フライング！";
+    startBtn.disabled = false;
+    return;
+  }
+
+  let reaction = Date.now() - startTime;
+
+  scoreText.textContent = "反応速度: " + reaction + "ms";
+  canClick = false;
+  startBtn.disabled = false;
+  pushBtn.disabled = true;
+};
+</script>
+
+</body>
+</html>
